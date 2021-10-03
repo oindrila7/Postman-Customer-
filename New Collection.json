@@ -1,0 +1,271 @@
+{
+	"info": {
+		"_postman_id": "18c4ac16-6b5b-4bc4-b6fa-02b91ba9f14b",
+		"name": "New Collection",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\":\"salman\",\n    \"password\":\"salman1234\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://customer-test-api.herokuapp.com/customer/api/v1/login",
+					"protocol": "https",
+					"host": [
+						"customer-test-api",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"customer",
+						"api",
+						"v1",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "list",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InNhbG1hbiIsInJvbGUiOiJtZW1iZXIiLCJpYXQiOjE2MzMxNjEwOTgsImV4cCI6MTYzMzE2Mjg5OH0.c9-u5gC45gMecZIkaQprWXzTrTnyd60aJm0s5kbS-Ks",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\":\"salman\",\n    \"password\":\"salman1234\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://customer-test-api.herokuapp.com/customer/api/v1/list",
+					"protocol": "https",
+					"host": [
+						"customer-test-api",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"customer",
+						"api",
+						"v1",
+						"list"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get by ID",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InNhbG1hbiIsInJvbGUiOiJtZW1iZXIiLCJpYXQiOjE2MzMxNjEwOTgsImV4cCI6MTYzMzE2Mjg5OH0.c9-u5gC45gMecZIkaQprWXzTrTnyd60aJm0s5kbS-Ks",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\":\"salman\",\n    \"password\":\"salman1234\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://customer-test-api.herokuapp.com/customer/api/v1/get/101",
+					"protocol": "https",
+					"host": [
+						"customer-test-api",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"customer",
+						"api",
+						"v1",
+						"get",
+						"101"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Customer",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"let id=_.random(1000, 9999)",
+							"const reqObject = {",
+							"  url: 'https://randomuser.me/api/',",
+							"  method: 'GET',",
+							"  header: 'Content-Type:application/json'",
+							"};",
+							"",
+							"pm.sendRequest(reqObject, (err, res) => {",
+							"    let {results} = res.json()",
+							"    let name=results[0].name.first+\" \"+results[0].name.last;",
+							"    let email=results[0].email;",
+							"    let phone_number=results[0].phone;",
+							"    let address=results[0].location.city+\",\"+results[0].location.country",
+							"    ",
+							"    pm.environment.set(\"id\",id);",
+							"    pm.environment.set(\"name\", name);",
+							"    pm.environment.set(\"email\", email);",
+							"    pm.environment.set(\"phone_number\", phone_number);",
+							"    pm.environment.set(\"address\", address);",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{token}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"id\":{{id}},\n    \"name\":\"{{name}}\",\n    \"email\":\"{{email}}\",\n    \"address\":\"Dhaka\",\n    \"phone_number\":\"{{phone_number}}\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://customer-test-api.herokuapp.com/customer/api/v1/create",
+					"protocol": "https",
+					"host": [
+						"customer-test-api",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"customer",
+						"api",
+						"v1",
+						"create"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Customer",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InNhbG1hbiIsInJvbGUiOiJtZW1iZXIiLCJpYXQiOjE2MzMxNjEwOTgsImV4cCI6MTYzMzE2Mjg5OH0.c9-u5gC45gMecZIkaQprWXzTrTnyd60aJm0s5kbS-Ks",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\":\"Ayesha\",\n    \"email\":\"oindrilakhair@gmail.com\",\n    \"address\":\"Gulshan, Dhaka\",\n    \"phone_number\":\"01727664938\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://customer-test-api.herokuapp.com/customer/api/v1/update/101",
+					"protocol": "https",
+					"host": [
+						"customer-test-api",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"customer",
+						"api",
+						"v1",
+						"update",
+						"101"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Customer",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InNhbG1hbiIsInJvbGUiOiJtZW1iZXIiLCJpYXQiOjE2MzMxNjEwOTgsImV4cCI6MTYzMzE2Mjg5OH0.c9-u5gC45gMecZIkaQprWXzTrTnyd60aJm0s5kbS-Ks",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\":\"Ayesha\",\n    \"email\":\"oindrilakhair@gmail.com\",\n    \"address\":\"Gulshan, Dhaka\",\n    \"phone_number\":\"01727664938\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://customer-test-api.herokuapp.com/customer/api/v1/delete/102",
+					"protocol": "https",
+					"host": [
+						"customer-test-api",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"customer",
+						"api",
+						"v1",
+						"delete",
+						"102"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
